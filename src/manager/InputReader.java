@@ -9,7 +9,7 @@ import java.util.Queue;
 
 import entity.AllocationMemoryRequest;
 import entity.DeallocationMemoryRequest;
-import entity.MemoryParams;
+import entity.Memory;
 import entity.MemoryRequest;
 import entity.MemoryRequestType;
 
@@ -19,7 +19,7 @@ public class InputReader {
 
 	public static void main(String[] args) {
 		FileReader file = null;
-		MemoryParams memoryParams = new MemoryParams();
+		Memory memory = null;
 		Queue<MemoryRequest> memoryRequests = new LinkedList<MemoryRequest>();
 
 		try {
@@ -32,33 +32,36 @@ public class InputReader {
 		String line;
 
 		try {
+			
 			int managerType = Integer.parseInt(bufferReader.readLine().trim());
-			System.out.println("Manager type = " + managerType);
+			
 			int initialMemory = Integer.parseInt(bufferReader.readLine().trim());
-			System.out.println("Initial Memory = " + initialMemory);
 			int finalMemory = Integer.parseInt(bufferReader.readLine().trim());
-			System.out.println("Final Memory = " + finalMemory);
-			memoryParams.setInitialMemory(initialMemory);
-			memoryParams.setFinalMemory(finalMemory);
-			System.out.println("Allocation / Deallocation attemps");
-			int i = 1;
+			memory = new Memory(initialMemory, finalMemory);
+			
 			while ((line = bufferReader.readLine()) != null) {
 				String[] allocationAttempts = line.split(" ");
 				String type = allocationAttempts[0];
 				String size = allocationAttempts[1];
 				if (type.equalsIgnoreCase("S")) {
-					memoryRequests.add(new AllocationMemoryRequest(MemoryRequestType.S, Integer.parseInt(size.trim()), i++));
+					memoryRequests.add(new AllocationMemoryRequest(MemoryRequestType.S, Integer.parseInt(size.trim())));
 				}
 				if (type.equalsIgnoreCase("L")) {
-					memoryRequests.add(new DeallocationMemoryRequest(MemoryRequestType.L, -1, Integer.parseInt(size.trim())));
+					memoryRequests.add(new DeallocationMemoryRequest(MemoryRequestType.L, Integer.parseInt(size.trim())));
 				}
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		MemoryManager memoryManager = new MemoryManager(memoryParams, memoryRequests);
-		memoryManager.handleRequests();
+		
+		
+		MemoryManager memoryManager = new MemoryManager(memory);
+		System.out.println("Start processing memory requests...");
+		while (!memoryRequests.isEmpty()) {
+			MemoryRequest nextRequest = memoryRequests.poll();
+			memoryManager.handleRequest(nextRequest);
+		}
+		System.out.println("Finishing processing memory requests!!!");
 	}
 }
