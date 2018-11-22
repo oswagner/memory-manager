@@ -43,9 +43,10 @@ public class MemoryManager {
 		if (!pendingAllocations.isEmpty()) {
 			AllocationMemoryRequest pendingRequest = pendingAllocations.poll();
 			if (!memory.alloc(pendingRequest)) {
-				System.out.println(memory.status());
+				pendingAllocations.add((AllocationMemoryRequest) pendingRequest);
 			}
 		}
+		System.out.println(memory.status());
 	}
 
 	/*

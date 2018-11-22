@@ -117,8 +117,7 @@ public class Memory {
 
 	public void free(DeallocationMemoryRequest deallocation) {
 		int blockId = deallocation.getBlockId();
-		MemoryBlock removedBlock = memoryBlocks.stream().filter(memBlock -> memBlock.getId() == blockId).findFirst()
-				.orElse(null);
+		MemoryBlock removedBlock = memoryBlocks.stream().filter(memBlock -> memBlock.getId() == blockId).findFirst().get();
 		memoryBlocks.remove(removedBlock);
 		memoryFreeBlocks.add(removedBlock);
 //		groupFreeBlocks();
@@ -165,13 +164,28 @@ public class Memory {
 
 	public String fragmentation(int requestedBlockSize) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("============= Memory Fragmentation Status =============").append("\n");
 		int totalFreeMemory = memoryFreeBlocks.stream().map(memBlock -> memBlock.getSize()).reduce(0, (a, b) -> a + b);
+		
+		if (totalFreeMemory < requestedBlockSize) {
+			builder.append("============= Memory Missing Status =============").append("\n");
+			totalFreeMemory = countTotalFreeMemory();
+		} else {			
+			builder.append("============= Memory Fragmentation Status =============").append("\n");
+		}
 
 		builder.append("Requested = ").append(requestedBlockSize).append("\n");
 		builder.append("Free memory = ").append(totalFreeMemory).append("\n");
 		builder.append("============================").append("\n");
 
 		return builder.toString();
+	}
+
+	private int countTotalFreeMemory() {
+		int total = 0;
+		for (int i = initialPosition; i < finalPosition; i++) {
+			if(mainMemory[i] ==  FREE_MEMORY)
+				total++;
+		}
+		return total;
 	}
 }
