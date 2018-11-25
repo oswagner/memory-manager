@@ -1,8 +1,11 @@
 package entity;
 
+/*
+ * Requisição de alocacão de memória
+ */
 public class AllocationMemoryRequest extends MemoryRequest {
 
-	private int blockSize;
+	private int blockSize; // informação de tamanho necessário para a alocação
 
 	public AllocationMemoryRequest(MemoryRequestType type, int blockSize) {
 		super(type);

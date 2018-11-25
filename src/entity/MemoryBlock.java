@@ -1,12 +1,15 @@
 package entity;
 
+/*
+ * Bloco de memória
+ */
 public class MemoryBlock {
 
-	private int id;
-	private int size;
+	private int id; // identificador
+	private int size; // tamanho do bloco
 
-	private int initialPosition;
-	private int finalPosition;
+	private int initialPosition; // posição inicial na memória principal
+	private int finalPosition; // posição final na memória principal
 
 	public MemoryBlock(int id, int size, int initialPosition, int finalPosition) {
 		this.id = id;

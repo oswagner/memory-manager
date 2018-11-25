@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -12,6 +13,14 @@ import entity.DeallocationMemoryRequest;
 import entity.Memory;
 import entity.MemoryRequest;
 import entity.MemoryRequestType;
+
+
+/*
+ * Classe para leitura de dados do arquivo,
+ * Criação da memória,
+ * Criação da lista de fila de requisições,
+ * Inicia o processo de requisição de memória ao gerente de memória.
+ */
 
 public class InputReader {
 
