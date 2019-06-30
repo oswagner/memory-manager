@@ -125,7 +125,7 @@ public class Memory {
 		if (firstFitFinded) {
 			MemoryBlock memoryBlock = new MemoryBlock(getMemoryBlockId(), blockSize, initialFreeIndex, maxIndex); // criação de bloco alocado
 			addMemoryBlock(memoryBlock); // adição de bloco alocado na lista de blocos sem utilizados 
-			fulfillMainMemory(memoryBlock.getInitialPosition(), memoryBlock.getFinalPosition(), USED_MEMORY); // marcação na memória principal
+			fulfillMainMemory(memoryBlock.getInitialPosition(), (memoryBlock.getFinalPosition()-1), USED_MEMORY); // marcação na memória principal
 		}
 		
 		return firstFitFinded; // feedback da memória para o gerente se houve ou não uma alocação 
@@ -188,7 +188,7 @@ public class Memory {
 	private int countTotalFreeInMainMemory() {
 		int total = 0;
 		for (int i = initialPosition; i < finalPosition; i++) {
-			if(mainMemory[i] ==  FREE_MEMORY)
+			if(mainMemory[i] == FREE_MEMORY)
 				total++;
 		}
 		return total;

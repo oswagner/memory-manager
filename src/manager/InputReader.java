@@ -24,7 +24,7 @@ import entity.MemoryRequestType;
 
 public class InputReader {
 
-	static final String FILENAME = "input-sample.txt";
+	static final String FILENAME = "input-sample3.txt";
 
 	public static void main(String[] args) {
 		FileReader file = null;
